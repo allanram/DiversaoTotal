@@ -1,0 +1,57 @@
+﻿@page "/carteirinha"
+@using Frontend.Model.Request;
+@using Frontend.Model.Response;
+<h3>Carteirinha</h3>
+
+
+<EditForm Model = " _clienteRequest" OnInvalidSubmit="GerarCarteirinha">
+ 
+   <DataAnnotationsValidator/>
+<div class="row">
+    <div class="col-4"> 
+        <label>Nome do Cliente</label>
+        <InputText @bind-Value =" _clienteRequest.Nome" class="form-control"></InputText>
+        <ValidationMessage For=" () => _clienteRequest.Nome"/>
+    </div>
+    <div class="col-4"> 
+        <label>Data de Nascimento</label>
+        <InputDate @bind-Value ="_clienteRequest.Nascimento"></InputDate>
+        <ValidationMessage For=" () => _clienteRequest.Nascimento" />
+
+    </div>
+
+    <div class="col-2"> 
+        <button type= "submit" class=" btn btn-outline-primary mt-2">Gerar Carteirinha</button>
+    </div>
+       
+
+</div>
+</EditForm>
+
+@if (exibirCarteirinha)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="h-100 text-center p-5 text-bg-dark rounded-3" style="background:@_carteirinhaResponse.CorDeFundo">
+                <h2>@_carteirinhaResponse.Nome</h2>
+                <h5>
+                    <span class="@_carteirinhaResponse.Nascimento.ToShortDateString()"></span>
+
+                </h5>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+ 
+@code {
+    private ClientRequest _clienteRequest  { get; set; } = new();
+    private bool exibirCarteirinha = false;
+    private CarteirinhaResponse _carteirinhaResponse { get; set; } = new();
+    private Task GerarCarteirinha()
+    {
+        return Task.CompletedTask;
+    }
+}
